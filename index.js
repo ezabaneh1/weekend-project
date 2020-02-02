@@ -6,7 +6,7 @@ let readlineSync = require('readline-sync');
 let userName
 let currentweek = 1;
 let money = 50000;
-let cInv = [0,0,0,0,0,0,0,0,0,0,15,0];
+let cInv = [0,0,0,0,0,0,0,0,0,15,15,0];
 let totalInventory = cInv.reduce((a,b) => a+b,0);
 let currentAction;
 
@@ -103,9 +103,17 @@ let menu = ()=>{
     }
         else if(currentAction == 3)
         {
+            if(optionAvailability[3]===true)
+            {
             sell1();
             PrintScreen();
             menu();
+            }
+            else{
+                PrintScreen();
+                console.log("\n\nYou've already sold this lot    You've already sold this lot      You've already sold this lot")
+                menu();
+            }
         }
         else 
         {console.log(`\nThanks for playing\n`)
@@ -157,6 +165,8 @@ let sell1 = () => {
     {
         inventoryLIFO(b1CurrentLotOffer);
         money = +money + +totalB1CurrentOffer;
+        optionAvailability[3] = false;
+
     }
     else
     {
