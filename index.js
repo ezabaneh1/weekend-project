@@ -5,8 +5,8 @@ let readlineSync = require('readline-sync');
  random5Number = () => Math.floor(Math.random()* 5);
 let userName
 let currentweek = 1;
-let Money = 100;
-let cInv = [0,0,0,0,0,0,0,0,0,0,0,0,];
+let money = 100;
+let cInv = [0,0,0,0,0,0,0,0,0,0,0,0];
 let totalInventory = cInv.reduce((a,b) => a+b,0);
 
 
@@ -52,12 +52,14 @@ totalB1CurrentOffer = totalB1CurrentOffer.toFixed(2);
 
 function PrintScreen()  {
 
-cl(`        Week ${currentweek}                 Bank Account: $${Money},000.00  `)
+
+
+cl(`        Week ${currentweek}                 Bank Account: $${money},000.00  `)
 cl(`                             Total Inventory('000):   ${totalInventory}         `)
 cl('')
 cl(`    Sellers                                             Buyers`)
 cl('')
-cl(` 1 ${Seller.one.Name}                                    7 ${Buyer.one.Name}`);
+cl(` 1 ${Seller.one.Name}                                    2 ${Buyer.one.Name}`);
 cl('')
 cl(`${s1CurrentLotSize},000 kgs, $${s1CurrentLotPrice}/kg                                 ${b1CurrentLotOffer},000 kgs, $${b1CurrentLotPrice}/kg   Freight: $${Buyer.one.Freight}`);
 cl(`Total Purchase (1)    $${totalS1CurrentOffer}                    Total Sale (7)    $${totalB1CurrentOffer}`)
@@ -65,21 +67,62 @@ cl(`Total Purchase (1)    $${totalS1CurrentOffer}                    Total Sale 
 }
 
 
+let menu = ()=>{
 
-function Intro() 
-{
-    setTimeout(() => {  console.log(`${userName}, so you want to get into the Avocado business?`); }, 1000);
-    setTimeout(() => {  console.log("Here you will be buying small lots locally"); }, 3000);
-    setTimeout(() => {  console.log("and shipping them to clients around the world"); }, 5000);
-    setTimeout(() => {  console.log("It is important you be careful to watch your inventory "); }, 8000);
-    setTimeout(() => {  console.log("because avocados in your inventory will expire every 12 weeks"); }, 11000);
-    setTimeout(() => {  console.log("Get rich, or eat Guacamole trying"); }, 17000);
+    buySellOptions = [`Buy ${s1CurrentLotSize} tons, $${totalS1CurrentOffer}`,'2', '3',`Sell ${b1CurrentLotOffer} tons, $${totalB1CurrentOffer}` ];
+    let currentAction = readlineSync.keyInSelect(buySellOptions, null,
+    {cancel : 'Exit Game'});
+
+    if (currentAction = 1 ){
+
+        money = money - totalS1CurrentOffer/1000;
+        cInv[0] = (cInv[0] + s1CurrentLotSize);
+        totalInventory = cInv.reduce((a,b) => a+b,0);
+        PrintScreen();
+       
+    } 
+    else if(currentAction = 4)
+    {
+        money = money+15;
+        cInv[0] = -5;
+        PrintScreen();
+    }
+    else 
+    {console.log(`\nThanks for playing\n`)
+        process.exit()    
+    }
+
 }
 
 
 
 userName = readlineSync.question("What is your name?  ");
-Intro();
+PrintScreen();
+buySellOptions = [`Buy ${s1CurrentLotSize} tons, $${totalS1CurrentOffer}`,'2', '3',`Sell ${b1CurrentLotOffer} tons, $${totalB1CurrentOffer}` ];
+    let currentAction = readlineSync.keyInSelect(buySellOptions, null,
+    {cancel : 'Exit Game'});
+
+    if (currentAction = 1 ){
+
+        money = money - totalS1CurrentOffer/1000;
+        cInv[0] = (cInv[0] + s1CurrentLotSize);
+        totalInventory = cInv.reduce((a,b) => a+b,0);
+        PrintScreen();
+        menu()
+       
+    } 
+    else if(currentAction = 4)
+    {
+        money = money+15;
+        cInv[0] = -5;
+        PrintScreen();
+    }
+    else 
+    {console.log(`\nThanks for playing\n`)
+        process.exit()    
+    }
+;
+
 
 
 
