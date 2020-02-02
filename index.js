@@ -1,9 +1,9 @@
-let readlinesynce = require('readline-sync');
+let readlineSync = require('readline-sync');
 
 
  cl=(words) => console.log(words);
  random5Number = () => Math.floor(Math.random()* 5);
-
+let userName
 let currentweek = 1;
 let Money = 100;
 let cInv = [0,0,0,0,0,0,0,0,0,0,0,0,];
@@ -65,8 +65,21 @@ cl(`Total Purchase (1)    $${totalS1CurrentOffer}                    Total Sale 
 }
 
 
-PrintScreen();
 
+function Intro() 
+{
+    setTimeout(() => {  console.log(`${userName}, so you want to get into the Avocado business?`); }, 1000);
+    setTimeout(() => {  console.log("Here you will be buying small lots locally"); }, 3000);
+    setTimeout(() => {  console.log("and shipping them to clients around the world"); }, 5000);
+    setTimeout(() => {  console.log("It is important you be careful to watch your inventory "); }, 8000);
+    setTimeout(() => {  console.log("because avocados in your inventory will expire every 12 weeks"); }, 11000);
+    setTimeout(() => {  console.log("Get rich, or eat Guacamole trying"); }, 17000);
+}
+
+
+
+userName = readlineSync.question("What is your name?  ");
+Intro();
 
 
 
