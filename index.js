@@ -6,7 +6,7 @@ let readlineSync = require('readline-sync');
 let userName
 let currentweek = 1;
 let money = 50000;
-let cInv = [0,0,0,0,0,0,0,0,0,15,15,0];
+let cInv = [0,0,0,0,0,0,0,0,0,15,15,15];
 let totalInventory = cInv.reduce((a,b) => a+b,0);
 let currentAction;
 
@@ -53,7 +53,8 @@ let optionAvailability = [true,true,true,true,true,true];
 function PrintScreen()  {
 
 
-
+cl('')
+cl('')
 cl(`        Week ${currentweek}                 Bank Account: $${money}`)
 cl(`                             Total Inventory('000):   ${totalInventory}         `)
 cl('')
@@ -68,7 +69,7 @@ cl(`Total Purchase (1)    $${totalS1CurrentOffer}                    Total Sale 
 
 }
 let menu = ()=>{
-    buySellOptions = [`Buy ${s1CurrentLotSize} tons, $${totalS1CurrentOffer}`,'hello', '3',`Sell ${b1CurrentLotOffer} tons, $${totalB1CurrentOffer}` ];
+    buySellOptions = [`Buy ${s1CurrentLotSize} tons, $${totalS1CurrentOffer}`,'hello', '3',`Sell ${b1CurrentLotOffer} tons, $${totalB1CurrentOffer}`, 5, 6, "Next Week" ];
         currentAction = readlineSync.keyInSelect(buySellOptions, 'What do you want to do?',
         {cancel : 'Exit Game'});
 
@@ -77,7 +78,7 @@ let menu = ()=>{
             if(optionAvailability[0]===true)
             {
                 if(money>=totalS1CurrentOffer){
-                    buy1();
+                    buy1(totalS1CurrentOffer,s1CurrentLotSize);
                     PrintScreen();
                     menu();
                 }
@@ -96,7 +97,8 @@ let menu = ()=>{
            
         } 
         else if(currentAction == 1){
-            console.log(currentAction);
+            PrintScreen();
+            menu();
         }
         else if(currentAction == 2){
         console.log(currentAction);
@@ -115,6 +117,10 @@ let menu = ()=>{
                 menu();
             }
         }
+        else if(currentAction ==6)
+        {
+            nextday();
+        }
         else 
         {console.log(`\nThanks for playing\n`)
             process.exit()    
@@ -122,7 +128,7 @@ let menu = ()=>{
     
     }
     
- let inventoryLIFO = (inventorytosubtract)=>{
+ let inventoryFIFO = (inventorytosubtract)=>{
 
     if(inventorytosubtract>totalInventory)
     {
@@ -152,9 +158,9 @@ let menu = ()=>{
 
 
 
-let buy1 = () => {
-    money = money - totalS1CurrentOffer;
-    cInv[0] = (cInv[0] + s1CurrentLotSize);
+let buy1 = (total$amount,lotsize) => {
+    money = money - total$amount;
+    cInv[0] = (cInv[0] + lotsize);
     totalInventory = cInv.reduce((a,b) => a+b,0);
     optionAvailability[0] = false;
 }
@@ -163,7 +169,7 @@ let sell1 = () => {
 
     if(totalInventory>=b1CurrentLotOffer)
     {
-        inventoryLIFO(b1CurrentLotOffer);
+        inventoryFIFO(b1CurrentLotOffer);
         money = +money + +totalB1CurrentOffer;
         optionAvailability[3] = false;
 
@@ -173,6 +179,35 @@ let sell1 = () => {
         console.log("Not enough inventory available     Not enough inventory available      Not enough inventory available")
         menu();
     }
+}
+
+let nextday = () => {
+
+    for(i=11;i>0;i--){
+        cInv[i] = cInv[(i-1)];
+    }
+    cInv[0]=0;
+
+    totalInventory = cInv.reduce((a,b) => a+b,0);
+
+     s1CurrentLotSize =  Seller.one.Lot.Size[random5Number()];
+     s1CurrentLotPrice = Seller.one.Lot.Price[random5Number()];
+     totalS1CurrentOffer = s1CurrentLotPrice*s1CurrentLotSize*1000
+    totalS1CurrentOffer = totalS1CurrentOffer.toFixed(2);
+    
+     b1CurrentLotOffer = Buyer.one.Lot.Size[random5Number()];
+     b1CurrentLotPrice = Buyer.one.Lot.Price[random5Number()];
+     totalB1CurrentOffer =  (b1CurrentLotOffer*b1CurrentLotPrice*1000)-Buyer.one.Freight
+    totalB1CurrentOffer = totalB1CurrentOffer.toFixed(2);
+    
+     optionAvailability = [true,true,true,true,true,true];
+
+     currentweek = +currentweek + 1;
+
+     PrintScreen();
+     menu();
+
+
 }
 
 userName = readlineSync.question("What is your name?  ");
