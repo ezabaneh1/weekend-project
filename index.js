@@ -94,12 +94,12 @@ totalB1CurrentOffer = totalB1CurrentOffer.toFixed(2);
 
 let b2CurrentLotOffer = Buyer.two.Lot.Size[random5Number()];
 let b2CurrentLotPrice = Buyer.two.Lot.Price[random5Number()];
-let totalB2CurrentOffer =  (b2CurrentLotOffer*b1CurrentLotPrice*1000)-Buyer.two.Freight
+let totalB2CurrentOffer =  (b2CurrentLotOffer*b2CurrentLotPrice*1000)-Buyer.two.Freight
 totalB2CurrentOffer = totalB2CurrentOffer.toFixed(2);
 
 let b3CurrentLotOffer = Buyer.three.Lot.Size[random5Number()];
 let b3CurrentLotPrice = Buyer.three.Lot.Price[random5Number()];
-let totalB3CurrentOffer =  (b3CurrentLotOffer*b1CurrentLotPrice*1000)-Buyer.three.Freight
+let totalB3CurrentOffer =  (b3CurrentLotOffer*b3CurrentLotPrice*1000)-Buyer.three.Freight
 totalB3CurrentOffer = totalB3CurrentOffer.toFixed(2);
 
 let optionAvailability = [true,true,true,true,true,true];
